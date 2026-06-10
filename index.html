@@ -168,9 +168,27 @@
   .faq .a{padding:0 24px 20px;color:var(--muted);font-size:15.5px;line-height:1.7}
   .faq .a b{color:var(--txt)}
 
+  .calc{max-width:720px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:38px 38px 30px}
+  .calc .qlabel{font-size:15px;color:var(--muted);text-align:center;margin-bottom:12px}
+  .calc .hval{font-family:var(--display);font-weight:800;font-size:clamp(30px,6vw,42px);letter-spacing:-.02em;text-align:center;margin-bottom:20px}
+  .calc .hval b{color:var(--accent)}
+  .calc input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:99px;outline:none;cursor:pointer;background:linear-gradient(90deg,var(--accent) 0%,var(--accent) 10%,rgba(255,255,255,.12) 10%,rgba(255,255,255,.12) 100%)}
+  .calc input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 4px 14px rgba(77,124,255,.5);cursor:pointer}
+  .calc input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--accent);box-shadow:0 4px 14px rgba(77,124,255,.5);cursor:pointer}
+  .calc input[type=range]::-moz-range-progress{height:8px;border-radius:99px;background:var(--accent)}
+  .calc-results{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:30px}
+  .res{background:var(--bg-2);border:1px solid var(--line);border-radius:14px;padding:20px;text-align:center}
+  .res .rl{font-size:13px;color:var(--muted);margin-bottom:8px}
+  .res .rv{font-family:var(--display);font-weight:700;font-size:26px;letter-spacing:-.02em}
+  .res.save{grid-column:1 / -1;background:linear-gradient(180deg,var(--panel-2),var(--panel));border-color:var(--accent)}
+  .res.save .rl{color:#cdd6ee}
+  .res.save .rv{font-size:clamp(32px,7vw,40px);color:var(--accent)}
+  .res.save .rv .pct{font-size:24px;color:var(--txt);font-weight:600}
+  .calc .fine{margin-top:18px;font-size:12px;color:var(--muted-2);line-height:1.55;text-align:center}
+
   @media(max-width:1000px){.price-grid,.steps,.cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:860px){.hero-grid,.result-grid,.detect{grid-template-columns:1fr}nav.links{display:none}}
-  @media(max-width:620px){.cards,.steps,.price-grid,.detect{grid-template-columns:1fr}.form .row{flex-direction:column;gap:0}}
+  @media(max-width:620px){.cards,.steps,.price-grid,.detect{grid-template-columns:1fr}.form .row{flex-direction:column;gap:0}.calc-results{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -349,6 +367,27 @@
   </div>
 </section>
 
+<!-- KALKULATOR -->
+<section id="kalkulator" class="sec">
+  <div class="wrap">
+    <div class="reveal" style="text-align:center">
+      <div class="sec-tag">Kalkulator</div>
+      <h2>Policz swoją oszczędność</h2>
+    </div>
+    <div class="calc reveal">
+      <div class="qlabel">Ile godzin audiobooków robisz miesięcznie?</div>
+      <div class="hval"><b id="calc-h">50</b> h / mies.</div>
+      <input id="calc-range" type="range" min="0" max="500" step="5" value="50" aria-label="Godziny audiobooków miesięcznie">
+      <div class="calc-results">
+        <div class="res"><div class="rl">Koszt ręcznej korekty</div><div class="rv" id="res-reczny">0 zł</div></div>
+        <div class="res"><div class="rl">Koszt z Korektorem</div><div class="rv" id="res-korektor">0 zł</div></div>
+        <div class="res save"><div class="rl">Oszczędzasz miesięcznie</div><div class="rv"><span id="res-oszcz">0 zł</span> <span class="pct" id="res-proc">(0%)</span></div></div>
+      </div>
+      <p class="fine">Szacunek. Ręczna korekta liczona wg minimalnej stawki godzinowej 31,40 zł/h brutto (2026) i czasu odsłuchu = długość nagrania +30% (notatki, cofanie, spisywanie błędów). Koszt z Korektorem wg cennika poniżej.</p>
+    </div>
+  </div>
+</section>
+
 <!-- CENNIK -->
 <section id="cennik" class="sec">
   <div class="wrap">
@@ -475,6 +514,46 @@
       btn.disabled=false; btn.innerHTML='Wyślij wiadomość &rarr;';
     }
   });}
+</script>
+<!-- Kalkulator oszczędności -->
+<script>
+  // === stałe (edytowalne) ===
+  const STAWKA_MIN = 31.40;   // zł/h brutto, minimalna stawka godzinowa 2026
+  const NARZUT     = 0.30;    // +30% czasu na odsłuch/notatki/cofanie ponad długość nagrania
+
+  function stawkaKorektor(h){           // cennik, zł/h wg wolumenu miesięcznego
+    if (h <= 50)  return 15;
+    if (h <= 100) return 14;
+    if (h <= 250) return 13;
+    return 12;
+  }
+  function przelicz(h){
+    const kosztReczny   = h * (1 + NARZUT) * STAWKA_MIN;
+    const kosztKorektor = h * stawkaKorektor(h);
+    const oszczednosc   = kosztReczny - kosztKorektor;
+    const procent       = kosztReczny > 0 ? Math.round(oszczednosc / kosztReczny * 100) : 0;
+    return { kosztReczny, kosztKorektor, oszczednosc, procent };
+  }
+  function fmtZl(n){
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,' ') + ' zł';
+  }
+  (function(){
+    const r=document.getElementById('calc-range');
+    if(!r) return;
+    function update(){
+      const h=parseInt(r.value,10);
+      const v=przelicz(h);
+      document.getElementById('calc-h').textContent=h;
+      document.getElementById('res-reczny').textContent=fmtZl(v.kosztReczny);
+      document.getElementById('res-korektor').textContent=fmtZl(v.kosztKorektor);
+      document.getElementById('res-oszcz').textContent=fmtZl(v.oszczednosc);
+      document.getElementById('res-proc').textContent='('+v.procent+'%)';
+      const pct=(h/500)*100;
+      r.style.background='linear-gradient(90deg,var(--accent) 0%,var(--accent) '+pct+'%,rgba(255,255,255,.12) '+pct+'%,rgba(255,255,255,.12) 100%)';
+    }
+    r.addEventListener('input',update);
+    update();
+  })();
 </script>
 </body>
 </html>
