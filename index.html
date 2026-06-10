@@ -31,16 +31,17 @@
   a{color:inherit;text-decoration:none}
 
   header.nav{position:sticky;top:0;z-index:50;background:rgba(8,11,22,.72);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .nav-inner{display:flex;align-items:center;gap:24px;height:64px}
-  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.02em;white-space:nowrap}
+  .nav-inner{display:flex;align-items:center;gap:16px;height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:-.02em;white-space:nowrap}
   .brand .dot{width:11px;height:11px;border-radius:3px;background:var(--accent);box-shadow:0 0 14px var(--accent)}
-  nav.links{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
-  nav.links a{font-size:14px;color:var(--muted);padding:8px 12px;border-radius:8px;transition:color .18s,background .18s;font-weight:500}
+  nav.links{margin-left:auto;display:flex;gap:2px}
+  nav.links a{font-size:13px;color:var(--muted);padding:7px 9px;border-radius:8px;transition:color .18s,background .18s;font-weight:500;white-space:nowrap}
   nav.links a:hover{color:var(--txt);background:rgba(255,255,255,.05)}
   nav.links a.active{color:var(--txt);background:var(--accent-soft)}
-  .nav-cta{margin-left:8px;background:var(--accent);color:#fff;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px;white-space:nowrap;transition:background .18s,transform .18s}
+  .nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+  .nav-cta{background:var(--accent);color:#fff;font-weight:600;font-size:13.5px;padding:8px 14px;border-radius:9px;white-space:nowrap;transition:background .18s,transform .18s}
   .nav-cta:hover{background:var(--accent-2);transform:translateY(-1px)}
-  .nav-login{margin-left:auto;font-size:14px;font-weight:600;color:var(--txt);padding:9px 14px;border-radius:9px;border:1px solid var(--line-strong);white-space:nowrap;transition:.18s}
+  .nav-login{font-size:13.5px;font-weight:600;color:var(--txt);padding:8px 13px;border-radius:9px;border:1px solid var(--line-strong);white-space:nowrap;transition:.18s}
   .nav-login:hover{border-color:var(--accent);color:var(--accent)}
 
   .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:13px 24px;border-radius:11px;cursor:pointer;border:1px solid transparent;transition:.18s}
@@ -126,7 +127,7 @@
   .tier .amt span{font-size:16px;color:var(--muted);font-weight:600}
   .tier .gh{color:var(--muted);font-size:13.5px;margin:6px 0 22px}
   .tier .btn{width:100%;justify-content:center;margin-top:auto;font-size:14px;padding:11px 16px}
-  .price-note{margin-top:22px;text-align:center;color:var(--muted-2);font-size:14px}
+  .price-note{margin-top:22px;color:var(--muted-2);font-size:14px}
   .price-note b{color:var(--muted)}
 
   .contact{padding:90px 0;text-align:center}
@@ -202,11 +203,15 @@
       <a href="#demo">Demo</a>
       <a href="#jak-dziala">Jak działa</a>
       <a href="#co-wykrywa">Co wykrywa</a>
+      <a href="#dla-kogo">Dla kogo</a>
+      <a href="#kalkulator">Kalkulator</a>
       <a href="#cennik">Cennik</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="https://korektor-test.onrender.com" target="_blank" rel="noopener" class="nav-login">Zaloguj się</a>
-    <a href="#kontakt" class="nav-cta">Umów demo</a>
+    <div class="nav-actions">
+      <a href="https://korektor-test.onrender.com" target="_blank" rel="noopener" class="nav-login">Zaloguj się</a>
+      <a href="#kontakt" class="nav-cta">Umów demo</a>
+    </div>
   </div>
 </header>
 
@@ -370,7 +375,7 @@
 <!-- KALKULATOR -->
 <section id="kalkulator" class="sec">
   <div class="wrap">
-    <div class="reveal" style="text-align:center">
+    <div class="reveal">
       <div class="sec-tag">Kalkulator</div>
       <h2>Policz swoją oszczędność</h2>
     </div>
@@ -391,10 +396,10 @@
 <!-- CENNIK -->
 <section id="cennik" class="sec">
   <div class="wrap">
-    <div class="reveal" style="text-align:center">
+    <div class="reveal">
       <div class="sec-tag">Cennik</div>
       <h2>Płacisz za realny czas audiobooka</h2>
-      <p class="sec-lead price-lead" style="margin:0 auto 40px">Korektor odsłuchowy potrzebuje długości nagrania plus 20–50% na notatki, cofanie i spisywanie błędów. U nas płacisz za sam czas trwania audiobooka. Im większy wolumen miesięcznie, tym niższa stawka za godzinę.</p>
+      <p class="sec-lead price-lead">Korektor odsłuchowy potrzebuje długości nagrania plus 20–50% na notatki, cofanie i spisywanie błędów. U nas płacisz za sam czas trwania audiobooka. Im większy wolumen miesięcznie, tym niższa stawka za godzinę.</p>
     </div>
     <div class="price-grid reveal">
       <div class="tier">
@@ -491,7 +496,7 @@
   document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
   const links=[...document.querySelectorAll('nav.links a')];const map={};links.forEach(l=>{map[l.getAttribute('href').slice(1)]=l});
   const navIo=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=map[e.target.id];if(a)a.classList.add('active')}})},{rootMargin:'-45% 0px -50% 0px'});
-  ['problem','demo','jak-dziala','co-wykrywa','cennik','faq'].forEach(id=>{const s=document.getElementById(id);if(s)navIo.observe(s)});
+  ['problem','demo','jak-dziala','co-wykrywa','dla-kogo','kalkulator','cennik','faq'].forEach(id=>{const s=document.getElementById(id);if(s)navIo.observe(s)});
 </script>
 <!-- Formspree: wysyłka w tle + własny komunikat, bez przekierowania -->
 <script>
