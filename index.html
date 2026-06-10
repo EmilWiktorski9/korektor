@@ -133,6 +133,11 @@
   .field input:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
   .field textarea{resize:vertical;min-height:96px}
   .form .btn{width:100%;justify-content:center;margin-top:6px}
+  .form-status{margin-top:12px;font-size:14px;color:#ff8a8a;min-height:1px}
+  .thanks{text-align:center;padding:14px 4px}
+  .thanks .ico{width:52px;height:52px;border-radius:50%;background:rgba(90,208,127,.16);color:#5ad07f;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}
+  .thanks h3{font-family:var(--display);font-weight:700;font-size:22px;margin-bottom:6px}
+  .thanks p{color:var(--muted);font-size:16px}
   .contact-meta{margin-top:30px;display:flex;gap:30px;justify-content:center;flex-wrap:wrap;font-size:16px}
   .contact-meta a,.contact-meta span{color:var(--muted);display:inline-flex;align-items:center;gap:9px}
   .contact-meta a:hover{color:var(--accent)}
@@ -314,7 +319,7 @@
     <div class="reveal" style="text-align:center">
       <div class="sec-tag">Cennik</div>
       <h2>Płacisz za realny czas audiobooka</h2>
-      <p class="sec-lead price-lead" style="margin:0 auto 40px">Korektor odsłuchowy potrzebuje długości nagrania plus 20–30% na notatki, cofanie i spisywanie błędów. U nas płacisz za sam czas trwania audiobooka. Im większy wolumen miesięcznie, tym niższa stawka za godzinę.</p>
+      <p class="sec-lead price-lead" style="margin:0 auto 40px">Korektor odsłuchowy potrzebuje długości nagrania plus 20–50% na notatki, cofanie i spisywanie błędów. U nas płacisz za sam czas trwania audiobooka. Im większy wolumen miesięcznie, tym niższa stawka za godzinę.</p>
     </div>
     <div class="price-grid reveal">
       <div class="tier">
@@ -359,7 +364,7 @@
     <p class="clead">Przygotuj fragment książki (PDF) oraz audio, a resztą zajmiemy się my.</p>
 
     <!-- FORMULARZ: wpisz swój identyfikator z Formspree zamiast TWOJE_ID (https://formspree.io) -->
-    <form class="form" action="https://formspree.io/f/mnjyzgeg" method="POST">
+    <form id="contact-form" class="form" action="https://formspree.io/f/mnjyzgeg" method="POST">
       <div class="row">
         <div class="field"><label>Imię / studio</label><input type="text" name="name" placeholder="Jan Kowalski / Studio Dźwięku"></div>
         <div class="field"><label>Telefon</label><input type="tel" name="phone" placeholder="123 456 789"></div>
@@ -367,12 +372,13 @@
       <div class="field"><label>E-mail</label><input type="email" name="email" required placeholder="ty@studio.pl"></div>
       <div class="field"><label>Wiadomość</label><textarea name="message" placeholder="Ile godzin nagrań miesięcznie? Jaki tytuł chcesz przetestować?"></textarea></div>
       <button type="submit" class="btn btn-primary">Wyślij wiadomość &rarr;</button>
+      <div id="form-status" class="form-status"></div>
     </form>
 
     <div class="contact-meta">
       <!-- ZMIEŃ e-mail i telefon -->
       <a href="mailto:kontakt@korektor.lektorski.pl">&#9993;&#65039; kontakt@korektor.lektorski.pl</a>
-      <span>&#128222; 123 456 789</span>
+      <span>&#128222; (na razie) 123 456 789</span>
     </div>
   </div>
 </section>
@@ -394,6 +400,28 @@
   const links=[...document.querySelectorAll('nav.links a')];const map={};links.forEach(l=>{map[l.getAttribute('href').slice(1)]=l});
   const navIo=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=map[e.target.id];if(a)a.classList.add('active')}})},{rootMargin:'-45% 0px -50% 0px'});
   ['problem','demo','jak-dziala','co-wykrywa','cennik'].forEach(id=>{const s=document.getElementById(id);if(s)navIo.observe(s)});
+</script>
+<!-- Formspree: wysyłka w tle + własny komunikat, bez przekierowania -->
+<script>
+  var cf=document.getElementById('contact-form');
+  if(cf){cf.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var btn=cf.querySelector('button[type=submit]'), status=document.getElementById('form-status');
+    status.textContent=''; btn.disabled=true; btn.textContent='Wysyłanie…';
+    try{
+      var res=await fetch(cf.action,{method:'POST',body:new FormData(cf),headers:{'Accept':'application/json'}});
+      if(res.ok){
+        cf.innerHTML='<div class="thanks"><div class="ico">&check;</div><h3>Dziękujemy za wiadomość</h3><p>Odpowiemy w ciągu 24 godzin.</p></div>';
+      }else{
+        var data=await res.json().catch(function(){return {}});
+        status.textContent=(data.errors&&data.errors[0]&&data.errors[0].message)||'Coś poszło nie tak. Napisz bezpośrednio na e-mail poniżej.';
+        btn.disabled=false; btn.innerHTML='Wyślij wiadomość &rarr;';
+      }
+    }catch(err){
+      status.textContent='Brak połączenia. Spróbuj ponownie za chwilę.';
+      btn.disabled=false; btn.innerHTML='Wyślij wiadomość &rarr;';
+    }
+  });}
 </script>
 </body>
 </html>
