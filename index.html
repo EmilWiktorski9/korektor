@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Korektor Lektorski · automatyczna korekta odsłuchowa audiobooków</title>
-<meta name="description" content="Porównuje nagranie lektora z PDF skryptu i zaznacza każde przekręcone, pominięte i dodane słowo. Zaznaczony PDF plus raport w minuty.">
+<title>Korektor Lektorski · automatyczna korekta nagrań lektorskich i audiobooków</title>
+<meta name="description" content="Automatyczna korekta odsłuchowa audiobooków: porównujemy nagranie lektora z tekstem PDF i zaznaczamy każde przekręcone, pominięte i dodane słowo. Zaznaczony PDF i raport Word dla studiów nagrań oraz wydawnictw.">
+<meta name="keywords" content="korekta audiobooków, korekta nagrań lektorskich, korekta odsłuchowa, kontrola jakości audiobooka, porównanie nagrania z tekstem, studio nagrań, wydawnictwo audiobooków">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Korektor Lektorski · automatyczna korekta nagrań lektorskich">
+<meta property="og:description" content="Porównujemy nagranie lektora z tekstem PDF i zaznaczamy każdy błąd. Zaznaczony PDF i raport Word w minuty.">
+<meta property="og:locale" content="pl_PL">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap&subset=latin,latin-ext" rel="stylesheet">
@@ -34,6 +40,8 @@
   nav.links a.active{color:var(--txt);background:var(--accent-soft)}
   .nav-cta{margin-left:8px;background:var(--accent);color:#fff;font-weight:600;font-size:14px;padding:9px 16px;border-radius:9px;white-space:nowrap;transition:background .18s,transform .18s}
   .nav-cta:hover{background:var(--accent-2);transform:translateY(-1px)}
+  .nav-login{margin-left:auto;font-size:14px;font-weight:600;color:var(--txt);padding:9px 14px;border-radius:9px;border:1px solid var(--line-strong);white-space:nowrap;transition:.18s}
+  .nav-login:hover{border-color:var(--accent);color:var(--accent)}
 
   .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:13px 24px;border-radius:11px;cursor:pointer;border:1px solid transparent;transition:.18s}
   .btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 30px rgba(77,124,255,.28)}
@@ -150,6 +158,16 @@
   .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
   .reveal.in{opacity:1;transform:none}
 
+  .faq{max-width:760px;margin:0 auto}
+  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden;transition:border .2s}
+  .faq details[open]{border-color:var(--line-strong)}
+  .faq summary{cursor:pointer;list-style:none;padding:20px 24px;font-family:var(--display);font-weight:600;font-size:17px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";color:var(--accent);font-size:24px;font-weight:400;line-height:1;flex:none;transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg)}
+  .faq .a{padding:0 24px 20px;color:var(--muted);font-size:15.5px;line-height:1.7}
+  .faq .a b{color:var(--txt)}
+
   @media(max-width:1000px){.price-grid,.steps,.cards{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:860px){.hero-grid,.result-grid,.detect{grid-template-columns:1fr}nav.links{display:none}}
   @media(max-width:620px){.cards,.steps,.price-grid,.detect{grid-template-columns:1fr}.form .row{flex-direction:column;gap:0}}
@@ -167,7 +185,9 @@
       <a href="#jak-dziala">Jak działa</a>
       <a href="#co-wykrywa">Co wykrywa</a>
       <a href="#cennik">Cennik</a>
+      <a href="#faq">FAQ</a>
     </nav>
+    <a href="https://korektor-test.onrender.com" target="_blank" rel="noopener" class="nav-login">Zaloguj się</a>
     <a href="#kontakt" class="nav-cta">Umów demo</a>
   </div>
 </header>
@@ -313,6 +333,22 @@
   </div>
 </section>
 
+<!-- DLA KOGO -->
+<section id="dla-kogo" class="sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-tag">Dla kogo</div>
+      <h2>Stworzone pod produkcję audiobooków</h2>
+      <p class="sec-lead">Dla wszystkich, którym zależy, żeby nagranie zgadzało się z tekstem co do słowa.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal"><div class="ic">&#127908;</div><h3>Studia nagrań</h3><p>Skróć korektę odsłuchową i oddawaj materiał szybciej, bez godzin ręcznego porównywania.</p></div>
+      <div class="card reveal" style="transition-delay:.06s"><div class="ic">&#128218;</div><h3>Wydawnictwa audiobooków</h3><p>Trzymaj równy standard jakości na całym katalogu, niezależnie od lektora i tytułu.</p></div>
+      <div class="card reveal" style="transition-delay:.12s"><div class="ic">&#9997;&#65039;</div><h3>Korektorzy i redaktorzy</h3><p>Dostań gotową listę rozbieżności ze znacznikami czasu i skup się na decyzjach, nie na szukaniu.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- CENNIK -->
 <section id="cennik" class="sec">
   <div class="wrap">
@@ -356,6 +392,23 @@
   </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq" class="sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="sec-tag">FAQ</div>
+      <h2>Najczęstsze pytania</h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Czy to zastępuje korektora?</summary><div class="a">Nie. To narzędzie wspomagające. Wyłapuje rozbieżności między nagraniem a tekstem i podaje znaczniki czasu, a ostateczną decyzję podejmuje człowiek. Skraca odsłuch, nie zastępuje redakcji.</div></details>
+      <details><summary>Czy moje pliki i prawa są bezpieczne?</summary><div class="a">Dane przetwarzamy w UE (Frankfurt). Pliki wejściowe (audio i PDF) nie są przechowywane trwale, usuwamy je po przetworzeniu. Gotowe raporty znikają automatycznie po 14 dniach. Współpracę reguluje umowa powierzenia danych (DPA).</div></details>
+      <details><summary>Czego narzędzie świadomie nie zaznacza?</summary><div class="a">Pomijamy różnice, które nie są błędem lektora: interpunkcję, homofony (ó/u, rz/ż, ch/h), liczby zapisane słownie (2008 = „dwa tysiące ósmym") oraz nazwiska z ustalonej listy wymowy. Dzięki temu w raporcie zostają tylko realne błędy.</div></details>
+      <details><summary>Jakie pliki przyjmujecie i jak wygląda praca?</summary><div class="a">Tekst wgrywasz jako PDF, nagranie jako plik audio. Całą książkę dzielisz na rozdziały po zakresach stron, a wynik dostajesz jako zaznaczone PDF-y, sklejony PDF i raport Word w jednym archiwum ZIP.</div></details>
+      <details><summary>Jak zacząć?</summary><div class="a">Przyślij fragment książki (PDF) i odpowiadające mu nagranie. Pokażemy zaznaczony wynik na Twoim własnym materiale, żebyś zobaczył, jak to działa u Ciebie.</div></details>
+    </div>
+  </div>
+</section>
+
 <!-- KONTAKT -->
 <section id="kontakt" class="contact">
   <div class="wrap reveal">
@@ -364,7 +417,7 @@
     <p class="clead">Przygotuj fragment książki (PDF) oraz audio, a resztą zajmiemy się my.</p>
 
     <!-- FORMULARZ: wpisz swój identyfikator z Formspree zamiast TWOJE_ID (https://formspree.io) -->
-    <form id="contact-form" class="form" action="https://formspree.io/f/mnjyzgeg" method="POST">
+    <form id="contact-form" class="form" action="https://formspree.io/f/TWOJE_ID" method="POST">
       <div class="row">
         <div class="field"><label>Imię / studio</label><input type="text" name="name" placeholder="Jan Kowalski / Studio Dźwięku"></div>
         <div class="field"><label>Telefon</label><input type="tel" name="phone" placeholder="123 456 789"></div>
@@ -399,7 +452,7 @@
   document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
   const links=[...document.querySelectorAll('nav.links a')];const map={};links.forEach(l=>{map[l.getAttribute('href').slice(1)]=l});
   const navIo=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=map[e.target.id];if(a)a.classList.add('active')}})},{rootMargin:'-45% 0px -50% 0px'});
-  ['problem','demo','jak-dziala','co-wykrywa','cennik'].forEach(id=>{const s=document.getElementById(id);if(s)navIo.observe(s)});
+  ['problem','demo','jak-dziala','co-wykrywa','cennik','faq'].forEach(id=>{const s=document.getElementById(id);if(s)navIo.observe(s)});
 </script>
 <!-- Formspree: wysyłka w tle + własny komunikat, bez przekierowania -->
 <script>
